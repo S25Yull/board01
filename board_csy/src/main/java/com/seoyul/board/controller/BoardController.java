@@ -81,6 +81,6 @@ public class BoardController {
 	    }
 	 //게시글 페이징
 	 
-
+///깃허브 테스트
 	
 }
