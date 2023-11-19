@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>boardWrite</title>
+</head>
+<body>
+    <button onclick="saveReq()">글작성</button>
+  	<a href="/board/boardSave">글작성</a>
+    <button onclick="listReq()">글목록</button> 	
+</body>
+<script>
+	const saveReq = () => {
+    location.href = "/board/boardSave";
+  }
+  const listReq = () => {
+    location.href = "/board/boardList";
+  }
+	
+</script>
+</html>
