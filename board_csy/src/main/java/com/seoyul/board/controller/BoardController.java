@@ -58,29 +58,54 @@ public class BoardController {
         model.addAttribute("board", boardDTO);
 		return "board/boardDetail";
 	}
-	//업데이트 창으로 가기
-	@GetMapping("/board/update/{id}")//boardUpdate.html의 action에서 정의해준 경로
+
+	//등록된 고유 번호를 이용하여 업데이트 창으로 가기
+	@GetMapping("/board/boardUpdate/{id}")//boardUpdate.html의 action에서 정의해준 경로
     public String updateForm(@PathVariable Long id, Model model) {
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("boardUpdate", boardDTO);
         return "board/boardUpdate";
     }
-	//업데이트 하기
-	 @PostMapping("/board/update")
+	//업데이트 하기 -> 업데이트 후 페이징리스트 호출
+	 @PostMapping("/board/boardUpdate")
 	    public String update(@ModelAttribute BoardDTO boardDTO, Model model) {
 	        BoardDTO board = boardService.update(boardDTO);
 	        model.addAttribute("board", board);
-	        return "board/boardDetail";
+	        return "redirect:/board/boardPaging";
 	        //return "redirect:/board/" + boardDTO.getId();
 	    }
-	 //게시글 삭제
-	 @GetMapping("board/delete/{id}")
+	 //게시글 삭제 -> 삭제 후 페이징리스트 호출
+	 @GetMapping("/board/delete/{id}")
 	    public String delete(@PathVariable Long id) {
 	        boardService.delete(id);
-	        return "redirect:/board/boardList";
+	        return "redirect:/board/boardPaging";
 	    }
-	 //게시글 페이징
 	 
-///깃허브 테스트
+	 //게시글 페이징
+	 @GetMapping("/board/boardPaging")
+	 public String paging(@PageableDefault(page = 1)Pageable pageable, Model model){//데이터로 담아갈땐 모델
+		 //pageable.getPageNumber(); //몇 페이지가 요청되었는지 확인 가능
+		 Page<BoardDTO> boardList = boardService.paging(pageable);
+		    int blockLimit = 3;
+	        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+	        int endPage = ((startPage + blockLimit - 1) < boardList.getTotalPages()) ? startPage + blockLimit - 1 : boardList.getTotalPages();
+	        //삼항연산자이용
+	        // page 갯수 20개
+	        // 현재 사용자가 3페이지
+	        // 1 2 3
+	        // 현재 사용자가 7페이지
+	        // 7 8 9
+	        // 보여지는 페이지 갯수 3개
+	        // 총 페이지 갯수 8개
+
+	        model.addAttribute("boardList", boardList);
+	        model.addAttribute("startPage", startPage);
+	        model.addAttribute("endPage", endPage);
+	        return "board/boardPaging";
+
+		 
+		 
+	 }
+
 	
 }

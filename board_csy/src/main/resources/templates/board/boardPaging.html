@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Paging</title>
+    <title>list (Paging)</title>
 </head>
 <body>
 <button onclick="saveReq()">글작성</button>
@@ -25,10 +25,10 @@
 </table>
 <!-- 첫번째 페이지로 이동 -->
 <!-- /board/paging?page=1 -->
-<a th:href="@{/board/paging(page=1)}">First</a>
+<a th:href="@{/board/boardPaging(page=1)}">First</a>
 <!-- 이전 링크 활성화 비활성화 -->
 <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
-<a th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number})}">prev</a>
+<a th:href="${boardList.first} ? '#' : @{/board/boardPaging(page=${boardList.number})}">prev</a>
 
 <!-- 페이지 번호 링크(현재 페이지는 숫자만)
         for(int page=startPage; page<=endPage; page++)-->
@@ -37,21 +37,22 @@
     <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
 <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
     <span th:unless="${page == boardList.number + 1}">
-        <a th:href="@{/board/paging(page=${page})}" th:text="${page}"></a>
+        <a th:href="@{/board/boardPaging(page=${page})}" th:text="${page}"></a>
     </span>
 </span>
 
 <!-- 다음 링크 활성화 비활성화
     사용자: 2페이지, getNumber: 1, 3페이지-->
-<a th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2})}">next</a>
+<a th:href="${boardList.last} ? '#' : @{/board/boardPaging(page=${boardList.number + 2})}">next</a>
 <!-- 마지막 페이지로 이동 -->
-<a th:href="@{/board/paging(page=${boardList.totalPages})}">Last</a>
+<a th:href="@{/board/boardPaging(page=${boardList.totalPages})}">Last</a>
 
 </body>
 <script>
     const saveReq = () => {
-        location.href = "/board/save";
+        location.href = "/board/boardSave";
     }
+   
 
 </script>
 </html>
