@@ -9,7 +9,8 @@
 
 <!-- 검색 -->
 <form th:action="@{/board/boardPaging}" method="get">
-    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+    <input type="text" name="searchKeyword" placeholder="검색어를 입력하세요" th:value="${param.searchKeyword}">
+    <input type="text" name="searchWriter" placeholder="작성자를 입력하세요" th:value="${param.searchWriter}"> <!-- 작성자 입력 필드 추가 -->
     <button type="submit">검색</button>
 </form>
 

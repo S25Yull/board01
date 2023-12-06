@@ -99,11 +99,11 @@ public class BoardController {
 
 	// 게시글 페이징
 	@GetMapping("/board/boardPaging")
-	public String paging(@PageableDefault(page = 1) Pageable pageable, Model model,String searchKeyword) {// 데이터로 담아갈땐 모델
+	public String paging(@PageableDefault(page = 1) Pageable pageable, @RequestParam(required=false,defaultValue="") String searchKeyword, String searchWriter ,Model model) {// 데이터로 담아갈땐 모델
 		// pageable.getPageNumber(); //몇 페이지가 요청되었는지 확인 가능
 		
-		//Page<BoardDTO> boardList = boardService.paging(pageable);
-		Page<BoardEntity> boardList = boardService.boardSearchList(searchKeyword);
+		Page<BoardDTO> boardList = boardService.paging(pageable, searchKeyword,searchWriter);
+		//Page<BoardEntity> boardList = boardService.boardSearchList(searchKeyword);
 		//Page<BoardDTO> boardList = null;
 		
 		//if(searchKeyword == null) { //검색기능이 추가되면서 검색했을때와 안했을때를 구분

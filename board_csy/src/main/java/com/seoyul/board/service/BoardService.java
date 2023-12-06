@@ -20,7 +20,7 @@ import com.seoyul.board.entity.BoardEntity;
 import com.seoyul.board.entity.BoardFileEntity;
 import com.seoyul.board.repository.BoardFileRepository;
 import com.seoyul.board.repository.BoardRepository;
-import com.seoyul.board.repository.BoardSearchRepository;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	 private final BoardRepository boardRepository;
 	 private final BoardFileRepository boardFileRepository;
-	 private final BoardSearchRepository boardSearchRepository;
+	// private final BoardSearchRepository boardSearchRepository;
 
 	 
 	 public void save(BoardDTO boardDTO)throws IOException {
@@ -119,13 +119,17 @@ public class BoardService {
 	}
 
      //페이징
-	public Page<BoardDTO> paging(Pageable pageable, String searchKeyword) {
+	//@Transactional
+	public Page<BoardDTO> paging(Pageable pageable, String searchKeyword, String searchWriter) {
 		int page = pageable.getPageNumber() - 1;
         int pageLimit = 3; // 한 페이지에 보여줄 글 갯수
         // 한페이지당 3개씩 글을 보여주고 정렬 기준은 id 기준으로 내림차순 정렬
         // page 위치에 있는 값은 0부터 시작(원래 자바에서 그런것) , 실제로 보여주는 값은 1페이지 = 사용자가 헷갈리지 않기위해
-		Page<BoardEntity> boardEntities =
-           boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+		//Page<BoardEntity> boardEntities =
+          // boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+      Page<BoardEntity> boardEntities =
+         boardRepository.findByBoardTitleContainingOrBoardWriterContaining(searchKeyword, searchWriter, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+        
 		//Page 인터페이스를 사용하면 엔티티에 없는 변수도 사용가능
 			System.out.println("boardEntities.getContent() = " + boardEntities.getContent()); // 요청 페이지에 해당하는 글
 	        System.out.println("boardEntities.getTotalElements() = " + boardEntities.getTotalElements()); // 전체 글갯수
@@ -143,9 +147,9 @@ public class BoardService {
 
 	//검색기능
 	//@Transactional
-	public Page<BoardEntity> boardSearchList(String searchKeyword){
-		Page<BoardEntity>boardList=boardSearchRepository.findByboardTitleContaining(searchKeyword);
-        return boardList;
-    }
+	//public Page<BoardEntity> boardSearchList(String searchKeyword){
+	//	Page<BoardEntity>boardList=boardSearchRepository.findByboardTitleContaining(searchKeyword);
+      //  return boardList;
+    //}
 
 }

@@ -36,6 +36,7 @@ public class BoardDTO {
 
 	    //검색용
 	    private String searchKeyword;
+	    private String searchWriter;
 	    
 	    //페이징 전용 DTO
 	    public BoardDTO(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
