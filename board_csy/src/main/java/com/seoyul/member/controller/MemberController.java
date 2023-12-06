@@ -50,13 +50,13 @@ private final MemberService memberService;
         if (loginResult != null) { //등록된 유저인지 판단
             // login 성공
            session.setAttribute(  "loginEmail", loginResult.getMemberEmail());
-            return "redirect:/main";
+            return "member/main";
         } else {
             // login 실패
             return "member/login";
         }
     }
-    
+
     //멤버조회하기
     @GetMapping("/member/") //home.html에 있는 member를 말함
     public String findAll(Model model) {

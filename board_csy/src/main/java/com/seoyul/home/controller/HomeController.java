@@ -17,11 +17,6 @@ public class HomeController {
 		return "home/home"; // home폴더 안에 있는 home.html
 	}
 	
-	//보드 페이지
-	@GetMapping("/main")
-	public String board() {
-		
-		return "member/main"; // home폴더 안에 있는 home.html
-	}
+
 	
 }

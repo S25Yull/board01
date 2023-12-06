@@ -7,6 +7,12 @@
 <body>
 <button onclick="saveReq()">글작성</button>
 
+<!-- 검색 -->
+<form th:action="@{/board/boardPaging}" method="get">
+    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+    <button type="submit">검색</button>
+</form>
+
 <table>
     <tr>
         <th>id</th>
