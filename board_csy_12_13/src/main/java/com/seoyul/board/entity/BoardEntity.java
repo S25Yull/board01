@@ -1,13 +1,13 @@
 package com.seoyul.board.entity;
 //DB의 테이블 역할을 하는 클래스
-
+import lombok.*;
 
 import java.util.ArrayList;
 
 import javax.persistence.*;
 
 import com.seoyul.board.dto.BoardDTO;
-import lombok.*;
+
 
 import java.util.List;
 
@@ -38,9 +38,8 @@ public class BoardEntity extends BaseEntity {
 	    @Column
 	    private int boardHits;
 	    
-	    //파일첨부유무
 	    @Column
-	    private int fileAttached; //파일의 존재유무를 0과 1로 구분
+	    private int fileAttached; //boardDTO에서 선언한것처럼 파일의 존재유무를 0과 1로 구분
 	    
 	    //부모 테이블의 정의 부모가 사라지면 자식도 함께 사라짐
 	    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -48,9 +47,6 @@ public class BoardEntity extends BaseEntity {
 	    
 	    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
 	    private List<CommentEntity> commentEntityList = new ArrayList<>();
-	    
-	 
-	    
 	    
 	    //글쓰기
 	    public static BoardEntity toSaveEntity(BoardDTO boardDTO) {
@@ -61,7 +57,7 @@ public class BoardEntity extends BaseEntity {
 	        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
 	        boardEntity.setBoardContents(boardDTO.getBoardContents());
 	        boardEntity.setBoardHits(0);
-	        boardEntity.setFileAttached(0); // (0)은 파일이 없다는 의미
+	        boardEntity.setFileAttached(0); //첨부파일로 새롭게 추가한 부분, (0)은 파일이 없다는 의미
 	        return boardEntity;
 	    }
 	    //업데이트
@@ -76,8 +72,7 @@ public class BoardEntity extends BaseEntity {
 	        
 	        return boardEntity;
 		}
-		//첨부파일
-		public static BoardEntity toSaveFileEntity(BoardDTO boardDTO ) {
+		public static BoardEntity toSaveFileEntity(BoardDTO boardDTO) {
 			BoardEntity boardEntity = new BoardEntity();
 	        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
 	        boardEntity.setBoardPass(boardDTO.getBoardPass());

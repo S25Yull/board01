@@ -101,18 +101,20 @@ public class BoardController {
 	public String paging(@PageableDefault(page = 1) Pageable pageable, @RequestParam(required=false,defaultValue="") String searchKeyword, String searchWriter ,Model model) {// 데이터로 담아갈땐 모델
 		// pageable.getPageNumber(); //몇 페이지가 요청되었는지 확인 가능
 		
-		Page<BoardDTO> boardList = boardService.paging(pageable, searchKeyword,searchWriter);
-		//Page<BoardEntity> boardList = boardService.boardSearchList(searchKeyword);
-		//Page<BoardDTO> boardList = null;
+		Page<BoardDTO> boardList = boardService.paging(pageable,searchKeyword,searchWriter);
 		
-		//if(searchKeyword == null) { //검색기능이 추가되면서 검색했을때와 안했을때를 구분
-		//	boardList = boardService.paging(pageable);
+		//Page<BoardDTO> boardList;
+		
+		//if(searchKeyword.isEmpty() && searchWriter.isEmpty()) { //검색안했을때
+		//	boardList = boardService.paging(pageable, searchKeyword, searchWriter);
+			
 		//}else {
-		//	boardList = boardService.boardSearchList(searchKeyword, pageable);
+		//	boardList = boardService.searchPaging(pageable);
 		//}
 		
 		
-		int blockLimit = 3;
+		
+		int blockLimit = 10;
 		int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; 
 		int endPage = ((startPage + blockLimit - 1) < boardList.getTotalPages()) ? startPage + blockLimit - 1
 				: boardList.getTotalPages();
@@ -124,5 +126,15 @@ public class BoardController {
 		return "board/boardPaging";
 
 	}
-	
+	//검색기능
+	///@GetMapping("/board/boardPaging")
+    //public String search(@RequestParam(value="keyword")String keyword, Model model) {
+
+      //  List<BoardDTO> searchList = boardService.boardSearchList(keyword);
+
+        //model.addAttribute("searchList", searchList);
+
+        //return "board/boardPaging";
+   // }
+
 }

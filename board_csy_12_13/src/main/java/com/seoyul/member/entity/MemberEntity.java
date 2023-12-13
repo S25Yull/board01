@@ -27,9 +27,6 @@ public class MemberEntity {
 
     @Column
     private String memberName;
-    
-    //부모 테이블의 정의 부모가 사라지면 자식도 함께 사라짐
-  //  @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
 
     //회원가입
     public static MemberEntity toMemberEntity(MemberDTO memberDTO) {
