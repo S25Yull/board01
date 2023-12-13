@@ -1,0 +1,50 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '2.7.17'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.seoyul'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '1.8'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	//신규추가-타임리프 레이아웃
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'      
+	//신규추가-마이바티스
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+	//신규추가-SQL로그를 보기 편하게
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	//신규추가-마리아디비 (나는 mysql없음, maria만있기때문)
+	//runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	//신규추가-개발자툴
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation group: 'com.mysql', name: 'mysql-connector-j'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

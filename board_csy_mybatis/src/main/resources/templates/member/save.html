@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+	<head>
+        <meta charset="UTF-8"/>
+        <title>회원가입 페이지</title>
+        <!-- jquery cdn -->
+    	<script
+            src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"></script>
+	</head>      
+ 	<!-- 해당 html페이지에서만 사용할 css, script  -->
+ 	<th:block layout:fragment="css"></th:block>  
+ 	<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="content">
+	<body>
+		<section class="bg-light py-5">
+	  		<div class="container px-5 my-5 px-5">
+		    	<div class="text-center mb-5">
+		      		<h2 class="fw-bolder">회원가입</h2>
+		    	</div>
+	    		<form action="/member/save" id="saveForm" method="post">
+		      		<div class="row mb-3">
+		        		<div class="col-md-6">
+		          			<label for="memberEmail" class="form-label">아이디</label>
+		          			<input type="text" class="form-control" id="memberEmail" name="memberEmail" onblur="emailCheck();">
+								<p id="check-result"></p>
+		        		</div>
+	        			<div class="col-md-6">
+		          			<label for="memberPassword" class="form-label">비밀번호</label>
+		          			<input type="password" class="form-control" id="memberPassword" name="memberPassword" >
+	       	 			</div>
+		      		</div>
+		      		<div class="mb-3">
+		        		<label for="memberEmail1" class="form-label">이메일</label>
+		        		<input type="text" class="form-control" id="memberEmail1" name="memberEmail1" >
+		      		</div>
+		      		<div class="mb-3">
+		        		<label for="memberName" class="form-label">이름</label>
+		        		<input type="text" class="form-control" id="memberName" name="memberName" >
+		      		</div>
+		      		<div class="mb-3">
+		        		<button type="button" id="btnSave"	class="w-100 btn btn-primary">회원가입</button>
+		      		</div>
+		    	</form>
+		  	</div>
+		</section>
+	</body>
+	<!--document는 현재문서에서 아이디를갖는 요소를 접근한다 -->
+	<script th:inline="javascript">
+
+		let emailChk = false;
+		
+		$(function() {
+
+ 			$('#btnSave').click(function() {
+
+		    	if($('#memberEmail').val() == ''){
+					alert("아이디를 입력해주세요.");
+					$('#memberEmail').focus();
+					return;
+				}
+		    	if($('#memberPassword').val() == ''){
+					alert('비밀번호를 입력해주세요.');
+					$('#memberPassword').focus();
+					return;
+				}
+		    	if($('#memberEmail1').val() == ''){
+					alert('이메일을 입력해주세요.');
+					$('#memberEmail1').focus();
+					return;
+				}
+		    	if($('#memberName').val() == ''){
+					alert('이름을 입력해주세요.');
+					$('#memberName').focus();
+					return;
+				}
+				if(!emailChk){
+					alert("이메일 체크를 해주세요.");
+				}
+				//폼 서브밋 실행
+				$('#saveForm').submit();
+		    });
+
+	   });
+
+		//이메일 중복체크
+	 	const emailCheck = () => {
+			 
+			const email = document.getElementById("memberEmail").value;  
+	        
+	        if(email != ""){
+				
+		        const checkResult = document.getElementById("check-result");
+		        console.log("입력값: ", email);
+		        
+		        $.ajax({
+		            // 요청방식: post, url: "email-check", 데이터: 이메일
+		            type: "post",
+		            url: "/member/email-check",
+		            async: false,
+		            data: {
+		                "memberEmail": email
+		            },
+	            	success: function(res) {
+                		console.log("요청성공", res);
+		                if (res  == 0) {
+		                    console.log("사용가능한 이메일");
+		                    checkResult.style.color = "green";
+		                    checkResult.innerHTML = "사용가능한 이메일";
+		                    emailChk = true;
+		                    
+		                } else {
+		                    console.log("이미 사용중인 이메일");
+		                    checkResult.style.color = "red";
+		                    checkResult.innerHTML = "이미 사용중인 이메일";
+		                    emailChk = false;
+		                }
+		            },
+		            error: function(err) {
+	                	console.log("에러발생", err);
+		            }
+		        });
+
+			}
+	        
+		}
+	</script>
+</html>

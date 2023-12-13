@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" 
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+	<head>
+        <meta charset="UTF-8"/>
+        <title>게시판 작성</title>
+        <!-- jquery cdn -->
+    	<script
+            src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"></script>
+	</head>  
+	<th:block layout:fragment="content">
+	<body>
+	  <section class="bg-light py-5">
+	    <div class="container px-5 my-5 px-5">
+	      <div class="text-center mb-5">
+	        <h2 class="fw-bolder">게시판 작성</h2>
+	      </div>
+	
+	      <form id="saveForm" action="/board/save" method="post">
+	        <div class="mb-3">
+	          <label for="title" class="form-label">제목</label>
+	          <input type="text" class="form-control" id="title" name="title">
+	        </div>
+	        <div class="mb-3">
+	          <label for="content" class="form-label">내용</label>
+	          <textarea class="form-control" id="content" name="content" rows="10"></textarea>
+	        </div>
+	        <div class="mb-3">
+	          <button type="button" id="btnSave" class="w-100 btn btn-primary">등록</button>
+	        </div>
+	      </form>
+	    </div>
+	  </section>
+	</body>
+	<!--document는 현재문서에서 아이디를갖는 요소를 접근한다 -->
+	<script th:inline="javascript">
+		
+		$(function() {
+ 			$('#btnSave').click(function() {
+		    	if($('#title').val() == ''){
+					alert("제목을 입력해주세요.");
+					$('#title').focus();
+					return;
+				}
+		    	if($('#content').val() == ''){
+					alert('내용을 입력해주세요.');
+					$('#content').focus();
+					return;
+				}
+				//폼 서브밋 실행
+				$('#saveForm').submit();
+		    });
+	   });
+	</script>
+</html>
