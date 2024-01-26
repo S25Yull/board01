@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- board_list.xml -->
+<mapper namespace="board_list">
+    <insert id="insert" parameterType="hashMap" useGeneratedKeys="true" keyProperty="no">
+        <![CDATA[
+        insert into board_list
+        (writer, title, content, attach, hit) 
+        values
+        (#{writer}, #{title}, #{content}, #{attach}, 0)
+        ]]>
+    </insert>
+
+    <select id="selectdetail" parameterType="hashMap" resultType="hashMap">
+        select
+        writer,
+        title,
+        content,
+        attach,
+        reg_date,
+        hit
+        from
+        board_list
+        where
+        no = #{no}   
+    </select>
+</mapper>
+
